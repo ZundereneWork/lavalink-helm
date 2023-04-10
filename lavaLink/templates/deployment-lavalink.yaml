@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "lavalink-music.fullname" . }}
+  labels:
+    {{- include "lavalink-music.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.Lavalink.autoscaling.enabled }}
+  replicas: {{ .Values.Lavalink.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "lavalink-music.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.Lavalink.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "lavalink-music.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.Lavalink.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "lavalink-music.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.Lavalink.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.Lavalink.securityContext | nindent 12 }}
+          image: "{{ .Values.Lavalink.image.repository }}:{{ .Values.Lavalink.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.Lavalink.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.Lavalink.service.port }}
+              protocol: TCP
+          readinessProbe:
+            tcpSocket:
+              port: 2333
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: 2333
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          resources:
+            {{- toYaml .Values.Lavalink.resources | nindent 12 }}
+          envFrom:
+            - configMapRef:
+                name: {{ .Release.Name }}-configmap
+      {{- with .Values.Lavalink.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.Lavalink.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.Lavalink.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

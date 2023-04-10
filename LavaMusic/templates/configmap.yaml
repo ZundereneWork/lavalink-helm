@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-configmap
+data:
+    TOKEN: "MTA2NDIwNDk3ODE2NTY1MzUyNA.Gnuyr5.o1pyKwcx09MrRmPl5CXTeReG1sNZLWWQqOq5gQ" # Your bot token
+    PREFIX: "/" # Your bot prefix
+    OWNER_IDS: "396411734405021698" # Your id
+    CLIENT_ID: "1064204978165653524" # Your bot id
+    GUILD_ID: "" # Your server Id if you want to use the for single server
+    PRODUCTION: "true" # true for production 
+    SEARCH_ENGINE: "ytsearch" # ytsearch, scsearch or ytmsearch
+    MAX_PLAYLIST_SIZE: "100" # Max playlist size
+    MAX_QUEUE_SIZE: "100" # Max queue size
+    DATABASE_URL: "mongodb://root:lgGzt9OMhh@lavalink-mongo-mongodb/db" # Your mongodb url
+    LAVALINK_URL: "lavalink-lavalink-music.lavalink.svc.cluster.local:2333" # Your lavalink url
+    LAVALINK_AUTH: "youshallnotpass" # Your lavalink password
+    LAVALINK_NAME: "Blacky" # Your lavalink name
+    LAVALINK_SECURE: "false" # true if you are using https

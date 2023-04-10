@@ -1,0 +1,28 @@
+{{- if .Values.Lavalink.autoscaling.enabled }}
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ include "lavalink-music.fullname" . }}
+  labels:
+    {{- include "lavalink-music.labels" . | nindent 4 }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ include "lavalink-music.fullname" . }}
+  minReplicas: {{ .Values.Lavalink.autoscaling.minReplicas }}
+  maxReplicas: {{ .Values.Lavalink.autoscaling.maxReplicas }}
+  metrics:
+    {{- if .Values.Lavalink.autoscaling.targetCPUUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: {{ .Values.Lavalink.autoscaling.targetCPUUtilizationPercentage }}
+    {{- end }}
+    {{- if .Values.Lavalink.autoscaling.targetMemoryUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: memory
+        targetAverageUtilization: {{ .Values.Lavalink.autoscaling.targetMemoryUtilizationPercentage }}
+    {{- end }}
+{{- end }}
