@@ -29,7 +29,7 @@ jobs:
         with:
           tokenPrefix: '__'
           tokenSuffix: '__'
-          files: '["./values.yaml"]'
+          files: '["./LavaMusic/values.yaml"]'
         env:
           TOKEN: '${{ secrets.DISCORD_TOKEN }}'
       - name: AKS set context
