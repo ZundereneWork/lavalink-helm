@@ -42,18 +42,18 @@ jobs:
       - name: Deploy via Helm
         run: |
           cd ./lavaLink
-          if helm status lavaLink -n lavalink; then
-            helm upgrade lavaLink  -n lavalink . 
+          if helm status lavalink -n lavalink; then
+            helm upgrade lavalink  -n lavalink . 
           else 
-            helm install lavaLink -n lavalink  .
+            helm install lavalink -n lavalink  .
           fi
       - name: Deploy via Helm
         run: |
           cd ./LavaMusic
-          if helm status LavaMusic -n lavalink; then
-            helm upgrade LavaMusic  -n lavalink . 
+          if helm status lavamusic -n lavalink; then
+            helm upgrade lavamusic  -n lavalink . 
           else 
-            helm install LavaMusic -n lavalink  .
+            helm install lavamusic -n lavalink  .
           fi
       
       
