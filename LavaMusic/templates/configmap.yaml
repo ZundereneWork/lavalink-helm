@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: {{ .Release.Name }}-configmap
 data:
-    TOKEN: "MTA2NDIwNDk3ODE2NTY1MzUyNA.Gnuyr5.o1pyKwcx09MrRmPl5CXTeReG1sNZLWWQqOq5gQ" # Your bot token
+    TOKEN: {{ .Value.TOKEN }} # Your bot token
     PREFIX: "/" # Your bot prefix
     OWNER_IDS: "396411734405021698" # Your id
     CLIENT_ID: "1064204978165653524" # Your bot id

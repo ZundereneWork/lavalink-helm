@@ -25,4 +25,38 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
+      - uses: cschleiden/replace-tokens@v1
+        with:
+          tokenPrefix: '__'
+          tokenSuffix: '__'
+          files: '["./values.yaml"]'
+        env:
+          TOKEN: '${{ secrets.DISCORD_TOKEN }}'
+      - name: AKS set context
+        uses: azure/aks-set-context@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          resource-group: ${{ vars.RESOURCE_GROUP }}
+          cluster-name: ${{ vars.CLUSTER_NAME }}
+        
+      - name: Deploy via Helm
+        run: |
+          cd ./lavaLink
+          if helm status lavaLink -n lavalink; then
+            helm upgrade lavaLink  -n lavalink . 
+          else 
+            helm install lavaLink -n lavalink  .
+          fi
+      - name: Deploy via Helm
+        run: |
+          cd ./LavaMusic
+          if helm status LavaMusic -n lavalink; then
+            helm upgrade LavaMusic  -n lavalink . 
+          else 
+            helm install LavaMusic -n lavalink  .
+          fi
+      
+      
+          
+
      
