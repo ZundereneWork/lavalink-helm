@@ -51,9 +51,9 @@ jobs:
         run: |
           cd ./LavaMusic
           if helm status lavamusic -n lavalink; then
-            helm upgrade lavamusic  -n --force lavalink . 
+            helm upgrade lavamusic  -n lavalink . 
           else 
-            helm install lavamusic -n --force lavalink  .
+            helm install lavamusic -n lavalink  .
           fi
       
       
