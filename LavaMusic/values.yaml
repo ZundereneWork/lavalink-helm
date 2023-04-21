@@ -5,10 +5,10 @@
 replicaCount: 1
 
 image:
-  repository: zunderene/botmusic
+  repository: troyrsaweu001.azurecr.io/lavamusic
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "latest"
+  tag: "main"
 
 imagePullSecrets: []
 nameOverride: ""
